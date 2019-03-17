@@ -4,7 +4,7 @@
 const SuppWxCfg g_Supported_WxSendTextMsg_Version[] = {
     { TEXT("2.6.6.44"), 0x2DA4A0 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x2E3E20 ,{0}}, //voiicemsg
-	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}},
+	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
 };
 
 const SuppWxCfg g_Supported_WxMsgPackFree_Version[] = {
@@ -50,7 +50,7 @@ void WxSendTextMsg(wxstring* wxid, wxstring* msg)
         mov eax, msg;
         push eax;
         call pfn_WxSendTextMsg;
-        add     esp, 0Ch;
+        add     esp, 0xC;
     }
     //f_free_1004B550(&v65);              // ÊÍ·ÅÄÚ´æ
     /*__asm {

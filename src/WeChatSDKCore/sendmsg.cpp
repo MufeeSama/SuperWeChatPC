@@ -33,10 +33,10 @@ typedef void* (__stdcall* PFN_SendMessageMgr_SendImageMsg)(char* msgpack, wxstri
 PFN_SendMessageMgr_Instance pfn_WxSendMsgMgrInstance = NULL;
 PFN_SendMessageMgr_SendImageMsg pfn_WxSendMsgMgr_SendImageMsg = NULL;
 
-void WxSendTextMsg(wxstring* wxid, wxstring* msg)
+void WxSendTextMsg(_WXSTRING* wxid, _WXSTRING* msg)
 {
     char v65[0x1000] = { 0 };
-    char unk[0x14] = { 0 };
+    char unk[0x81C] = { 0 };	
 
     __asm {
         lea ecx, v65;
@@ -50,8 +50,9 @@ void WxSendTextMsg(wxstring* wxid, wxstring* msg)
         mov eax, msg;
         push eax;
         call pfn_WxSendTextMsg;
-        add     esp, 0xC;
+        add  esp, 0xC;
     }
+	
     //f_free_1004B550(&v65);              // ÊÍ·ÅÄÚ´æ
     /*__asm {
         lea ecx, v65;
@@ -110,8 +111,11 @@ int CoreSendTxtMsg(WCHAR* wxid, WCHAR* msg)
         return ret;
     }
 
-    wxstring pmsg;
-    wxstring pwxid;
+    //wxstring pmsg;
+    //wxstring pwxid;
+
+	_WXSTRING pmsg;
+	_WXSTRING pwxid;
 
     pwxid.buf = wxid;
     pwxid.len = wcslen(wxid);

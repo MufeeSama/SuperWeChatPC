@@ -10,16 +10,19 @@ const SuppWxCfg g_Supported_WxSendTextMsg_Version[] = {
 const SuppWxCfg g_Supported_WxMsgPackFree_Version[] = {
     { TEXT("2.6.6.44"), 0x4B550 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x4DC80 ,{0}}, //voiicemsg
+	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
 };
 
 const SuppWxCfg g_Supported_WxSendMsgMgrInstance_Version[] = {
     { TEXT("2.6.6.44"), 0x7D390 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x7FC90 ,{0}}, //voiicemsg
+	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
 };
 
 const SuppWxCfg g_Supported_SendImageMsg_Version[] = {
     { TEXT("2.6.6.44"), 0x2D9EA0 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x2E3810 ,{0}}, //voiicemsg
+	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
 };
 
 typedef void(__cdecl* PFN_WXSendTextMsg)(wxstring* msg, char* unk, int flag);
@@ -33,10 +36,10 @@ typedef void* (__stdcall* PFN_SendMessageMgr_SendImageMsg)(char* msgpack, wxstri
 PFN_SendMessageMgr_Instance pfn_WxSendMsgMgrInstance = NULL;
 PFN_SendMessageMgr_SendImageMsg pfn_WxSendMsgMgr_SendImageMsg = NULL;
 
-void WxSendTextMsg(_WXSTRING* wxid, _WXSTRING* msg)
+void WxSendTextMsg(wxstring* wxid, wxstring* msg)
 {
     char v65[0x1000] = { 0 };
-    char unk[0x81C] = { 0 };	
+    char unk[0x14] = { 0 };
 
     __asm {
         lea ecx, v65;
@@ -50,9 +53,8 @@ void WxSendTextMsg(_WXSTRING* wxid, _WXSTRING* msg)
         mov eax, msg;
         push eax;
         call pfn_WxSendTextMsg;
-        add  esp, 0xC;
+        add     esp, 0xC;
     }
-	
     //f_free_1004B550(&v65);              // ÊÍ·ÅÄÚ´æ
     /*__asm {
         lea ecx, v65;
@@ -111,11 +113,8 @@ int CoreSendTxtMsg(WCHAR* wxid, WCHAR* msg)
         return ret;
     }
 
-    //wxstring pmsg;
-    //wxstring pwxid;
-
-	_WXSTRING pmsg;
-	_WXSTRING pwxid;
+    wxstring pmsg;
+    wxstring pwxid;
 
     pwxid.buf = wxid;
     pwxid.len = wcslen(wxid);

@@ -11,11 +11,13 @@
 
 const SuppWxCfg g_Supported_wxTextMsg_Version[] = {
     { TEXT("2.6.7.40"), 0x2E7980 ,{0}}, //
+	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}}, //
 };
 
 const SuppWxCfg g_Supported_wxMoneyMsg_Version[] = {
     //{ TEXT("2.6.7.40"), 0x235C30 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x180730 ,{0}}, //
+	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}}, //
 };
 
 typedef int(__stdcall* PFNVoiceDecode)(int a1, int a2, int voice);

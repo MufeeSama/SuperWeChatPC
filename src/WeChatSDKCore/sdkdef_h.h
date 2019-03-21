@@ -59,6 +59,9 @@ int WSDKAntiRevokeMsg( void);
 
 int WSDKUnAntiRevokeMsg( void);
 
+int WSDKGetCurrentWxid( 
+    /* [out] */ wchar_t *wxid);
+
 int WSDKStartSaveVoiceMsg( 
     /* [string][in] */ wchar_t *path);
 

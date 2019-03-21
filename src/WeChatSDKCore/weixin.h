@@ -158,6 +158,8 @@ typedef struct _USERINFO
 int CoreFakeRevokeMsg();
 void CoreRestoreRevokeMsg();
 
+int CoreGetCurrentWxid(wchar_t *wxid);
+
 int CoreSaveVoiceMsg(wchar_t *path);
 int CoreUnSaveVoiceMsg(void);
 

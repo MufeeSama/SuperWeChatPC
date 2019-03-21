@@ -9,6 +9,7 @@ interface WechatSDK
     int WSDKUninitialize();
     int WSDKAntiRevokeMsg();
     int WSDKUnAntiRevokeMsg();
+	int WSDKGetCurrentWxid([out] wchar_t* wxid);
     int WSDKStartSaveVoiceMsg([in, string]wchar_t* path);
     int WSDKStopSaveVoiceMsg();
     int WSDKSendTextMsg([in, string]wchar_t* wxid, [in, string]wchar_t* msg);

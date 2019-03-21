@@ -164,6 +164,27 @@ int WXGetWechatVersion(wchar_t* version)
     return GetWeChatVersion(version);
 }
 
+int WXGetCurrentWxid(DWORD pid,wchar_t *wxid)
+{
+	RPC_WSTR StringBinding = NULL;
+	int ret = ConnectSDKServer(pid, &StringBinding);
+	if (ret == 0) {
+		// 下面是调用服务端的函数了
+		RpcTryExcept
+		{
+			ret = WSDKGetCurrentWxid(wxid);
+		}
+			RpcExcept(1)
+		{
+			printf("RPC Exception %d/n", RpcExceptionCode());
+		}
+		RpcEndExcept
+
+			DisconnectSDKServer(pid, &StringBinding);
+	}
+	return ret;
+}
+
 bool WXIsWechatSDKOk(DWORD pid)
 {
     RPC_WSTR StringBinding = NULL;

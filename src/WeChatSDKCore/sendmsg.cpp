@@ -39,7 +39,7 @@ PFN_SendMessageMgr_SendImageMsg pfn_WxSendMsgMgr_SendImageMsg = NULL;
 void WxSendTextMsg(wxstring* wxid, wxstring* msg)
 {   
     char v65[0x1000] = { 0 };
-    char unk[0x14] = { 0 };
+    char unk[0x81C] = { 0 };
 
     __asm {
         lea ecx, v65;

@@ -11,13 +11,13 @@
 
 const SuppWxCfg g_Supported_wxTextMsg_Version[] = {
     { TEXT("2.6.7.40"), 0x2E7980 ,{0}}, //
-	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}},
+	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}}, //
 };
 
 const SuppWxCfg g_Supported_wxMoneyMsg_Version[] = {
     //{ TEXT("2.6.7.40"), 0x235C30 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x180730 ,{0}}, //
-	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}},
+	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}}, //
 };
 
 typedef int(__stdcall* PFNVoiceDecode)(int a1, int a2, int voice);
@@ -54,7 +54,7 @@ PFNRecvMsg pfnRecvTextMsg = NULL;
 unsigned int pfnRecvTextMsgClk = NULL;
 
 int __stdcall fakeRecvTextMsg(PRecvMsgPack msg)
-{	
+{
     __asm {
         pushad;
         pushfd;
@@ -66,8 +66,8 @@ int __stdcall fakeRecvTextMsg(PRecvMsgPack msg)
         if (pfnRecvTextMsgClk) {
             CoreWSDKClkRecvTextMsg(
                 pfnRecvTextMsgClk,
-				msg->msg->wxid1.buf,
-                msg->msg->msg.buf				
+                msg->msg->wxid1.buf,
+                msg->msg->msg.buf
             );
         }
     }
@@ -204,7 +204,6 @@ int InitRecvTextMsg()
     if (pfnRecvTextMsg) {
         return ERROR_SUCCESS;
     }
-
 
     int ret = HookTemplate(hMod,
         g_Supported_wxTextMsg_Version,

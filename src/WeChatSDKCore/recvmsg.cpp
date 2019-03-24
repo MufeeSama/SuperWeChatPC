@@ -11,14 +11,20 @@
 
 const SuppWxCfg g_Supported_wxTextMsg_Version[] = {
     { TEXT("2.6.7.40"), 0x2E7980 ,{0}}, //
-	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}}, //
+	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}},
 };
 
 const SuppWxCfg g_Supported_wxMoneyMsg_Version[] = {
     //{ TEXT("2.6.7.40"), 0x235C30 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x180730 ,{0}}, //
-	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}}, //
+	{ TEXT("2.6.7.57"), 0x2E87A0 ,{0}},
 };
+
+const SuppWxCfg g_Supported_wxInfo_Version[] = {
+	{ TEXT("2.6.7.40"), 0x125C074 ,{0}},
+	{ TEXT("2.6.7.57"), 0x125D094 ,{0}},
+};
+
 
 typedef int(__stdcall* PFNVoiceDecode)(int a1, int a2, int voice);
 typedef int(__stdcall* PFNVoiceDecodeInternal)(int voice, int size, int from, int a4);
@@ -53,8 +59,41 @@ typedef int(__stdcall* PFNRecvMsg)(PRecvMsgPack msg);
 PFNRecvMsg pfnRecvTextMsg = NULL;
 unsigned int pfnRecvTextMsgClk = NULL;
 
-int __stdcall fakeRecvTextMsg(PRecvMsgPack msg)
+wchar_t * UTF8ToUnicode(const char* str)
 {
+	int    textlen = 0;
+	wchar_t * result;
+	textlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+	result = (wchar_t *)malloc((textlen + 1) * sizeof(wchar_t));
+	memset(result, 0, (textlen + 1) * sizeof(wchar_t));
+	MultiByteToWideChar(CP_UTF8, 0, str, -1, (LPWSTR)result, textlen);
+	return    result;
+}
+
+wchar_t* getWxid() {
+	DWORD offset = 0;
+	if (!IsSupportedWxVersion(
+		g_Supported_wxInfo_Version,
+		ARRAYSIZE(g_Supported_wxInfo_Version),
+		&offset,
+		NULL,
+		NULL)) {
+		return NULL;
+	}
+	DWORD WechatWin = (DWORD)LoadLibrary(L"WechatWin.dll");
+	wchar_t* wxid = NULL;
+	wxid = UTF8ToUnicode((const char *)WechatWin + offset);
+	if (wcslen(wxid) < 0x6) {
+		DWORD pWxid = WechatWin + offset;
+		pWxid = *((DWORD *)pWxid);
+		wxid = UTF8ToUnicode((const char *)pWxid);
+	}
+	return wxid;
+}
+
+
+int __stdcall fakeRecvTextMsg(PRecvMsgPack msg)
+{	
     __asm {
         pushad;
         pushfd;
@@ -66,8 +105,8 @@ int __stdcall fakeRecvTextMsg(PRecvMsgPack msg)
         if (pfnRecvTextMsgClk) {
             CoreWSDKClkRecvTextMsg(
                 pfnRecvTextMsgClk,
-                msg->msg->wxid1.buf,
-                msg->msg->msg.buf
+				msg->msg->wxid1.buf,
+                msg->msg->msg.buf				
             );
         }
     }
@@ -204,6 +243,7 @@ int InitRecvTextMsg()
     if (pfnRecvTextMsg) {
         return ERROR_SUCCESS;
     }
+
 
     int ret = HookTemplate(hMod,
         g_Supported_wxTextMsg_Version,

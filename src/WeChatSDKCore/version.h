@@ -1,9 +1,9 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define COPYRIGHT "Copyright (C) 2018-2020."
-#define AHTHOR_NAME ""
-#define AUTHOR_WECHAT ""
+#define COPYRIGHT "Copyright (C) 2018-2020 anhkgg."
+#define AHTHOR_NAME "anhkgg"
+#define AUTHOR_WECHAT "anhkgg"
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 1
 #define VERSION_RELEASE 2

@@ -37,7 +37,7 @@ PFN_SendMessageMgr_Instance pfn_WxSendMsgMgrInstance = NULL;
 PFN_SendMessageMgr_SendImageMsg pfn_WxSendMsgMgr_SendImageMsg = NULL;
 
 void WxSendTextMsg(wxstring* wxid, wxstring* msg)
-{
+{   
     char v65[0x1000] = { 0 };
     char unk[0x14] = { 0 };
 

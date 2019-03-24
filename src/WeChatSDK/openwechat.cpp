@@ -248,9 +248,6 @@ int OpenWeChat(DWORD* pid)
     int ret = -1;
     STARTUPINFO si = { sizeof(si) };
     PROCESS_INFORMATION pi = { 0 };
-
-	si.dwFlags = STARTF_USESHOWWINDOW;
-	si.wShowWindow = SW_SHOW;
       
     PatchWeChat();
     /*if (ret != ERROR_SUCCESS) {
@@ -265,12 +262,10 @@ int OpenWeChat(DWORD* pid)
 
     //ShellExecute(NULL, L"Open", Path, NULL, NULL, SW_SHOW);
 
-    if (!CreateProcess(NULL, Path, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi)) {
+    if (!CreateProcess(NULL, Path, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi)) {
         ret = GetLastError();
         return ret;
     }
-
-	WaitForInputIdle(pi.hProcess, INFINITE);
 
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);

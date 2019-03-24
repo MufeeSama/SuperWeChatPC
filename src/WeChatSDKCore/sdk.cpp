@@ -57,13 +57,6 @@ int WSDKUnAntiRevokeMsg(void)
     return 0;
 }
 
-int WSDKGetCurrentWxid(
-                 wchar_t *wxid)
-{
-	OutputDebugString(L"sdk::GetCurrentWxid");
-	return CoreGetCurrentWxid(wxid);	
-}
-
 int WSDKStartSaveVoiceMsg(
     /* [string][in] */ wchar_t *path)
 {

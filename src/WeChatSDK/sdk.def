@@ -5,7 +5,6 @@ EXPORTS
 	WXInitialize
 	WXUninitialize
 	WXGetWechatVersion
-	WXGetCurrentWxid
 	WXIsWechatSDKOk 
 	WXAntiRevokeMsg
 	WXUnAntiRevokeMsg

@@ -118,11 +118,11 @@ int CoreSendTxtMsg(WCHAR* wxid, WCHAR* msg)
 
     pwxid.buf = wxid;
     pwxid.len = wcslen(wxid);
-    pwxid.maxlen = wcslen(wxid) * 2;
+    pwxid.maxlen = wcslen(wxid) + 2;
 
     pmsg.buf = msg;
     pmsg.len = wcslen(msg);
-    pmsg.maxlen = wcslen(msg) * 2;
+    pmsg.maxlen = wcslen(msg) + 2;
 
     WxSendTextMsg(&pwxid, &pmsg);
 

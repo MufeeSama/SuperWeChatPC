@@ -257,6 +257,7 @@ int OpenWeChat(DWORD* pid)
         return ret;
     }*/
 
+	/*
     WCHAR Path[MAX_PATH] = { 0 };
     ret = GetWeChatPath(Path);
     if (ERROR_SUCCESS != ret) {
@@ -276,6 +277,7 @@ int OpenWeChat(DWORD* pid)
     CloseHandle(pi.hProcess);
     
     *pid = pi.dwProcessId;
+	*/
 
     ret = ERROR_SUCCESS;
 

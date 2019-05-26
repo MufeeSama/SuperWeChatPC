@@ -253,6 +253,7 @@ int OpenWeChat(DWORD* pid)
 	si.wShowWindow = SW_SHOW;
       
     PatchWeChat();
+	PatchWeChat();
     /*if (ret != ERROR_SUCCESS) {
         return ret;
     }*/

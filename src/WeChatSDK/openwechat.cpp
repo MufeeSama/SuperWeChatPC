@@ -225,7 +225,7 @@ int PatchWeChat()
                         ret = GetLastError();
                     }
 
-                    //goto Exit0;
+                    goto Exit0;
                 }
             }
 
@@ -252,7 +252,8 @@ int OpenWeChat(DWORD* pid)
 	si.dwFlags = STARTF_USESHOWWINDOW;
 	si.wShowWindow = SW_SHOW;
       
-    PatchWeChat();	
+    PatchWeChat();
+	PatchWeChat();
     /*if (ret != ERROR_SUCCESS) {
         return ret;
     }*/

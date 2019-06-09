@@ -5,36 +5,15 @@ const SuppWxCfg g_Supported_WxSendTextMsg_Version[] = {
     { TEXT("2.6.6.44"), 0x2DA4A0 ,{0}}, //voiicemsg
     { TEXT("2.6.7.40"), 0x2E3E20 ,{0}}, //voiicemsg
 	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
+	{ TEXT("2.6.8.51"), 0x2EB4E0 ,{0}}, //voiicemsg
 };
 
-const SuppWxCfg g_Supported_WxMsgPackFree_Version[] = {
-    { TEXT("2.6.6.44"), 0x4B550 ,{0}}, //voiicemsg
-    { TEXT("2.6.7.40"), 0x4DC80 ,{0}}, //voiicemsg
-	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
-};
 
-const SuppWxCfg g_Supported_WxSendMsgMgrInstance_Version[] = {
-    { TEXT("2.6.6.44"), 0x7D390 ,{0}}, //voiicemsg
-    { TEXT("2.6.7.40"), 0x7FC90 ,{0}}, //voiicemsg
-	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
-};
-
-const SuppWxCfg g_Supported_SendImageMsg_Version[] = {
-    { TEXT("2.6.6.44"), 0x2D9EA0 ,{0}}, //voiicemsg
-    { TEXT("2.6.7.40"), 0x2E3810 ,{0}}, //voiicemsg
-	{ TEXT("2.6.7.57"), 0x2E4C40 ,{0}}, //voiicemsg
-};
 
 typedef void(__cdecl* PFN_WXSendTextMsg)(wxstring* msg, char* unk, int flag);
-typedef void(__stdcall* PFN_WXMsgPackFree)();
+
 
 PFN_WXSendTextMsg pfn_WxSendTextMsg = NULL;
-PFN_WXMsgPackFree pfn_WxMsgPackFree = NULL;
-
-typedef void* (__stdcall* PFN_SendMessageMgr_Instance)();
-typedef void* (__stdcall* PFN_SendMessageMgr_SendImageMsg)(char* msgpack, wxstring* wxid, wxstring* imagepath);
-PFN_SendMessageMgr_Instance pfn_WxSendMsgMgrInstance = NULL;
-PFN_SendMessageMgr_SendImageMsg pfn_WxSendMsgMgr_SendImageMsg = NULL;
 
 
 void WxSendTextMsg(wxstring* wxid, wxstring* msg)
@@ -81,27 +60,11 @@ int InitFunction()
         if (!IsSupportedWxVersion(
                 g_Supported_WxSendTextMsg_Version,
                 ARRAYSIZE(g_Supported_WxSendTextMsg_Version),
-                &SendTextMsgOffset) ||
-            !IsSupportedWxVersion(
-                g_Supported_WxMsgPackFree_Version,
-                ARRAYSIZE(g_Supported_WxMsgPackFree_Version),
-                &MsgFreeOffset) ||
-            !IsSupportedWxVersion(
-                g_Supported_WxSendMsgMgrInstance_Version,
-                ARRAYSIZE(g_Supported_WxSendMsgMgrInstance_Version),
-                &SendMsgMgrInstanceOffset) ||
-            !IsSupportedWxVersion(
-                g_Supported_SendImageMsg_Version,
-                ARRAYSIZE(g_Supported_SendImageMsg_Version),
-                &SendImageMsgOffset))
+                &SendTextMsgOffset))
         {
             return ERROR_NOT_SUPPORTED;
         }
-        pfn_WxSendTextMsg = (PFN_WXSendTextMsg)((DWORD)hMod + SendTextMsgOffset);
-        pfn_WxMsgPackFree = (PFN_WXMsgPackFree)((DWORD)hMod + MsgFreeOffset);
-
-        pfn_WxSendMsgMgrInstance = (PFN_SendMessageMgr_Instance)((DWORD)hMod + SendMsgMgrInstanceOffset);
-        pfn_WxSendMsgMgr_SendImageMsg = (PFN_SendMessageMgr_SendImageMsg)((DWORD)hMod + SendImageMsgOffset);
+        pfn_WxSendTextMsg = (PFN_WXSendTextMsg)((DWORD)hMod + SendTextMsgOffset);        
     }
 
     return ERROR_SUCCESS;
